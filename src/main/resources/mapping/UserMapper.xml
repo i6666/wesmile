@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wesmile.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.wesmile.bean.User">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_code" jdbcType="BIGINT" property="userCode" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="head_picture" jdbcType="VARCHAR" property="headPicture" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="user_state" jdbcType="TINYINT" property="userState" />
+    <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_code, login_name, password, phone, head_picture, gender, real_name, id_card, 
+    email, birthday, user_state, last_login_ip, last_login_time, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.wesmile.bean.UserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="page != null">
+      limit #{page.pageNum} , #{page.pageSize}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.wesmile.bean.UserExample">
+    delete from tb_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wesmile.bean.User">
+    insert into tb_user (id, user_code, login_name, 
+      password, phone, head_picture, 
+      gender, real_name, id_card, 
+      email, birthday, user_state, 
+      last_login_ip, last_login_time, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{userCode,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{headPicture,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=TINYINT}, #{realName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, #{userState,jdbcType=TINYINT}, 
+      #{lastLoginIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wesmile.bean.User">
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userCode != null">
+        user_code,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="headPicture != null">
+        head_picture,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="userState != null">
+        user_state,
+      </if>
+      <if test="lastLoginIp != null">
+        last_login_ip,
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userCode != null">
+        #{userCode,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="headPicture != null">
+        #{headPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="userState != null">
+        #{userState,jdbcType=TINYINT},
+      </if>
+      <if test="lastLoginIp != null">
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wesmile.bean.UserExample" resultType="java.lang.Long">
+    select count(*) from tb_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userCode != null">
+        user_code = #{record.userCode,jdbcType=BIGINT},
+      </if>
+      <if test="record.loginName != null">
+        login_name = #{record.loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.headPicture != null">
+        head_picture = #{record.headPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.realName != null">
+        real_name = #{record.realName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idCard != null">
+        id_card = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userState != null">
+        user_state = #{record.userState,jdbcType=TINYINT},
+      </if>
+      <if test="record.lastLoginIp != null">
+        last_login_ip = #{record.lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastLoginTime != null">
+        last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_user
+    set id = #{record.id,jdbcType=BIGINT},
+      user_code = #{record.userCode,jdbcType=BIGINT},
+      login_name = #{record.loginName,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      head_picture = #{record.headPicture,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
+      real_name = #{record.realName,jdbcType=VARCHAR},
+      id_card = #{record.idCard,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=VARCHAR},
+      user_state = #{record.userState,jdbcType=TINYINT},
+      last_login_ip = #{record.lastLoginIp,jdbcType=VARCHAR},
+      last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <insert id="insertBatchSelective" parameterType="java.util.List">
+    <foreach collection="list" index="index" item="item" separator=";">
+      insert into tb_user
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="item.id!=null">
+          id,
+        </if>
+        <if test="item.userCode!=null">
+          user_code,
+        </if>
+        <if test="item.loginName!=null">
+          login_name,
+        </if>
+        <if test="item.password!=null">
+          password,
+        </if>
+        <if test="item.phone!=null">
+          phone,
+        </if>
+        <if test="item.headPicture!=null">
+          head_picture,
+        </if>
+        <if test="item.gender!=null">
+          gender,
+        </if>
+        <if test="item.realName!=null">
+          real_name,
+        </if>
+        <if test="item.idCard!=null">
+          id_card,
+        </if>
+        <if test="item.email!=null">
+          email,
+        </if>
+        <if test="item.birthday!=null">
+          birthday,
+        </if>
+        <if test="item.userState!=null">
+          user_state,
+        </if>
+        <if test="item.lastLoginIp!=null">
+          last_login_ip,
+        </if>
+        <if test="item.lastLoginTime!=null">
+          last_login_time,
+        </if>
+        <if test="item.createTime!=null">
+          create_time,
+        </if>
+        <if test="item.updateTime!=null">
+          update_time,
+        </if>
+      </trim>
+       values 
+      <trim prefix=" (" suffix=")" suffixOverrides=",">
+        <if test="item.id!=null">
+          #{item.id,jdbcType=BIGINT},
+        </if>
+        <if test="item.userCode!=null">
+          #{item.userCode,jdbcType=BIGINT},
+        </if>
+        <if test="item.loginName!=null">
+          #{item.loginName,jdbcType=VARCHAR},
+        </if>
+        <if test="item.password!=null">
+          #{item.password,jdbcType=VARCHAR},
+        </if>
+        <if test="item.phone!=null">
+          #{item.phone,jdbcType=VARCHAR},
+        </if>
+        <if test="item.headPicture!=null">
+          #{item.headPicture,jdbcType=VARCHAR},
+        </if>
+        <if test="item.gender!=null">
+          #{item.gender,jdbcType=TINYINT},
+        </if>
+        <if test="item.realName!=null">
+          #{item.realName,jdbcType=VARCHAR},
+        </if>
+        <if test="item.idCard!=null">
+          #{item.idCard,jdbcType=VARCHAR},
+        </if>
+        <if test="item.email!=null">
+          #{item.email,jdbcType=VARCHAR},
+        </if>
+        <if test="item.birthday!=null">
+          #{item.birthday,jdbcType=VARCHAR},
+        </if>
+        <if test="item.userState!=null">
+          #{item.userState,jdbcType=TINYINT},
+        </if>
+        <if test="item.lastLoginIp!=null">
+          #{item.lastLoginIp,jdbcType=VARCHAR},
+        </if>
+        <if test="item.lastLoginTime!=null">
+          #{item.lastLoginTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.createTime!=null">
+          #{item.createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.updateTime!=null">
+          #{item.updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+    </foreach>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,user_code,
+      login_name,password,
+      phone,head_picture,
+      gender,real_name,
+      id_card,email,
+      birthday,user_state,
+      last_login_ip,last_login_time,
+      create_time,update_time,
+    </trim>
+     values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        #{item.id,jdbcType=BIGINT},#{item.userCode,jdbcType=BIGINT},
+        #{item.loginName,jdbcType=VARCHAR},#{item.password,jdbcType=VARCHAR},
+        #{item.phone,jdbcType=VARCHAR},#{item.headPicture,jdbcType=VARCHAR},
+        #{item.gender,jdbcType=TINYINT},#{item.realName,jdbcType=VARCHAR},
+        #{item.idCard,jdbcType=VARCHAR},#{item.email,jdbcType=VARCHAR},
+        #{item.birthday,jdbcType=VARCHAR},#{item.userState,jdbcType=TINYINT},
+        #{item.lastLoginIp,jdbcType=VARCHAR},#{item.lastLoginTime,jdbcType=TIMESTAMP},
+        #{item.createTime,jdbcType=TIMESTAMP},#{item.updateTime,jdbcType=TIMESTAMP},
+      </trim>
+    </foreach>
+  </insert>
+</mapper>

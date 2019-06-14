@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wesmile.mapper.ContentMapper">
+  <resultMap id="BaseResultMap" type="com.wesmile.bean.Content">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="fetchTime" jdbcType="TIMESTAMP" property="fetchTime" />
+    <result column="file_id" jdbcType="INTEGER" property="fileId" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTimes" jdbcType="TIMESTAMP" property="updateTimes" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="versions" jdbcType="BIGINT" property="versions" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.wesmile.bean.Content">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, title, fetchTime, file_id, tag, sort, source, remark, createTime, updateTimes, 
+    state, versions, type
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.wesmile.bean.ContentExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_content
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.wesmile.bean.ContentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_content
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="page != null">
+      limit #{page.pageNum} , #{page.pageSize}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.wesmile.bean.ContentExample">
+    delete from tb_content
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wesmile.bean.Content">
+    insert into tb_content (id, title, fetchTime, 
+      file_id, tag, sort, 
+      source, remark, createTime, 
+      updateTimes, state, versions, 
+      type, content)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{fetchTime,jdbcType=TIMESTAMP}, 
+      #{fileId,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTimes,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR}, #{versions,jdbcType=BIGINT}, 
+      #{type,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wesmile.bean.Content">
+    insert into tb_content
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="fetchTime != null">
+        fetchTime,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTimes != null">
+        updateTimes,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="versions != null">
+        versions,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="fetchTime != null">
+        #{fetchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTimes != null">
+        #{updateTimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="versions != null">
+        #{versions,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wesmile.bean.ContentExample" resultType="java.lang.Long">
+    select count(*) from tb_content
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_content
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fetchTime != null">
+        fetchTime = #{record.fetchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fileId != null">
+        file_id = #{record.fileId,jdbcType=INTEGER},
+      </if>
+      <if test="record.tag != null">
+        tag = #{record.tag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=VARCHAR},
+      </if>
+      <if test="record.source != null">
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTimes != null">
+        updateTimes = #{record.updateTimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.versions != null">
+        versions = #{record.versions,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tb_content
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      fetchTime = #{record.fetchTime,jdbcType=TIMESTAMP},
+      file_id = #{record.fileId,jdbcType=INTEGER},
+      tag = #{record.tag,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=VARCHAR},
+      source = #{record.source,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updateTimes,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=VARCHAR},
+      versions = #{record.versions,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_content
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      fetchTime = #{record.fetchTime,jdbcType=TIMESTAMP},
+      file_id = #{record.fileId,jdbcType=INTEGER},
+      tag = #{record.tag,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=VARCHAR},
+      source = #{record.source,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updateTimes,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=VARCHAR},
+      versions = #{record.versions,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <insert id="insertBatchSelective" parameterType="java.util.List">
+    <foreach collection="list" index="index" item="item" separator=";">
+      insert into tb_content
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="item.id!=null">
+          id,
+        </if>
+        <if test="item.title!=null">
+          title,
+        </if>
+        <if test="item.fetchTime!=null">
+          fetchTime,
+        </if>
+        <if test="item.fileId!=null">
+          file_id,
+        </if>
+        <if test="item.tag!=null">
+          tag,
+        </if>
+        <if test="item.sort!=null">
+          sort,
+        </if>
+        <if test="item.source!=null">
+          source,
+        </if>
+        <if test="item.remark!=null">
+          remark,
+        </if>
+        <if test="item.createTime!=null">
+          createTime,
+        </if>
+        <if test="item.updateTimes!=null">
+          updateTimes,
+        </if>
+        <if test="item.state!=null">
+          state,
+        </if>
+        <if test="item.versions!=null">
+          versions,
+        </if>
+        <if test="item.type!=null">
+          type,
+        </if>
+        <if test="item.content!=null">
+          content,
+        </if>
+      </trim>
+       values 
+      <trim prefix=" (" suffix=")" suffixOverrides=",">
+        <if test="item.id!=null">
+          #{item.id,jdbcType=INTEGER},
+        </if>
+        <if test="item.title!=null">
+          #{item.title,jdbcType=VARCHAR},
+        </if>
+        <if test="item.fetchTime!=null">
+          #{item.fetchTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.fileId!=null">
+          #{item.fileId,jdbcType=INTEGER},
+        </if>
+        <if test="item.tag!=null">
+          #{item.tag,jdbcType=VARCHAR},
+        </if>
+        <if test="item.sort!=null">
+          #{item.sort,jdbcType=VARCHAR},
+        </if>
+        <if test="item.source!=null">
+          #{item.source,jdbcType=VARCHAR},
+        </if>
+        <if test="item.remark!=null">
+          #{item.remark,jdbcType=VARCHAR},
+        </if>
+        <if test="item.createTime!=null">
+          #{item.createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.updateTimes!=null">
+          #{item.updateTimes,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.state!=null">
+          #{item.state,jdbcType=VARCHAR},
+        </if>
+        <if test="item.versions!=null">
+          #{item.versions,jdbcType=BIGINT},
+        </if>
+        <if test="item.type!=null">
+          #{item.type,jdbcType=INTEGER},
+        </if>
+        <if test="item.content!=null">
+          #{item.content,jdbcType=LONGVARCHAR},
+        </if>
+      </trim>
+    </foreach>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into tb_content
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,title,
+      fetchTime,file_id,
+      tag,sort,
+      source,remark,
+      createTime,updateTimes,
+      state,versions,
+      type,content,
+    </trim>
+     values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        #{item.id,jdbcType=INTEGER},#{item.title,jdbcType=VARCHAR},
+        #{item.fetchTime,jdbcType=TIMESTAMP},#{item.fileId,jdbcType=INTEGER},
+        #{item.tag,jdbcType=VARCHAR},#{item.sort,jdbcType=VARCHAR},
+        #{item.source,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR},
+        #{item.createTime,jdbcType=TIMESTAMP},#{item.updateTimes,jdbcType=TIMESTAMP},
+        #{item.state,jdbcType=VARCHAR},#{item.versions,jdbcType=BIGINT},
+        #{item.type,jdbcType=INTEGER},#{item.content,jdbcType=LONGVARCHAR},
+      </trim>
+    </foreach>
+  </insert>
+</mapper>
